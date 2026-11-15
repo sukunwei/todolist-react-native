@@ -70,7 +70,23 @@ if [[ -z "$APP" ]]; then
   npm run ios -- --port "$PORT"
   APP="$(ls -d "$HOME"/Library/Developer/Xcode/DerivedData/TODOLIST-*/Build/Products/Debug-iphonesimulator/TODOLIST.app | head -1)"
 fi
-xcrun simctl install "$UDID" "$APP"
+
+# 只在没装过时才安装：simctl install 会重建 App 的数据容器，
+# 把本地存的待办数据一并清掉。原生代码有改动时用 --reinstall 强制装一次。
+REINSTALL=0
+[[ " $* " == *" --reinstall "* ]] && REINSTALL=1
+
+INSTALLED=0
+if xcrun simctl listapps "$UDID" 2>/dev/null | grep -q "$BUNDLE_ID"; then
+  INSTALLED=1
+fi
+
+if [[ "$INSTALLED" == "0" || "$REINSTALL" == "1" ]]; then
+  [[ "$REINSTALL" == "1" ]] && echo "强制重装（会清空本地数据）……"
+  xcrun simctl install "$UDID" "$APP"
+else
+  echo "App 已安装，跳过安装（保留本地数据）"
+fi
 
 # ---------- 4. 启动 ----------
 if [[ "$DARK" == "1" ]]; then
@@ -82,6 +98,18 @@ fi
 xcrun simctl terminate "$UDID" "$BUNDLE_ID" 2>/dev/null || true
 sleep 1
 xcrun simctl launch "$UDID" "$BUNDLE_ID"
+
+# ---------- 4.5 打开原生模拟器窗口 ----------
+# 这台机器的 Xcode 是精简安装，没有 Simulator.app；Xcode 16+ 已把模拟器设备
+# 窗口搬到了 DeviceHub.app（bundle id com.apple.dt.Devices），用它来开原生窗口。
+DEVICE_HUB="/Applications/Xcode.app/Contents/Applications/DeviceHub.app"
+if [[ -d "$DEVICE_HUB" ]]; then
+  open -a "$DEVICE_HUB"
+  open "devices://$UDID" 2>/dev/null || true
+  echo "原生模拟器窗口已打开（Device Hub → iPhone 18 Pro）"
+else
+  echo "未找到 DeviceHub.app，跳过窗口打开"
+fi
 
 # ---------- 5. 截图 ----------
 if [[ "$DO_SHOT" == "1" ]]; then
