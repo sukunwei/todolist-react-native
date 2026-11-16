@@ -39,9 +39,27 @@ npm run ios
 | `npm run lint` | ESLint 检查 |
 | `npm test` | Jest 单元测试 |
 | `npm run typecheck` | TypeScript 类型检查（`tsc --noEmit`） |
-| `python3 scripts/generate-icon.py` | 重新生成占位 App 图标 |
 
 提交前请确保 `npm run lint && npm test && npm run typecheck` 三项全绿。
+
+## 辅助脚本
+
+| 脚本 | 作用 |
+|---|---|
+| `scripts/run-sim.sh` | 启动模拟器、装 App、打开原生模拟器窗口（Device Hub）、截图 |
+| `scripts/generate-icon.py` | 生成 1024×1024 无 Alpha 的 App 图标（`--preview` 额外出各尺寸对照） |
+| `scripts/seed-tasks.py` | 往模拟器灌示例任务（`--count N` 可灌任意条数） |
+| `scripts/capture-screenshots.sh` | 批量截取 5 张 App Store 截图（iPhone 18 Pro Max，1320×2868） |
+| `scripts/sim-viewer.js` | headless 环境下的网页投屏 + 点击转发（备用） |
+
+## 上架材料
+
+| 文件 | 内容 |
+|---|---|
+| [`App Store 元数据.md`](./App%20Store%20元数据.md) | 名称、副标题、描述、关键词、截图说明、审核备注、提交检查清单 |
+| [`隐私政策.md`](./隐私政策.md) | 隐私政策正文（需部署成公开网页后填进 App Store Connect） |
+| `screenshots/` | 5 张 1320×2868 上架截图 |
+| `ios/.../AppIcon.png` | 1024×1024 无 Alpha 图标 |
 
 ---
 
