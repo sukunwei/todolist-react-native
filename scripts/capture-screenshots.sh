@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BUNDLE_ID="com.kunweisu.qingdanben"
+BUNDLE_ID="com.kunweisu.todolist"
 PORT="${PORT:-8082}"
 OUT_DIR="screenshots"
 IDB="${IDB:-$HOME/.local/share/idb-venv/bin/idb}"
@@ -49,6 +49,13 @@ if [[ -z "$APP" ]]; then
 fi
 xcrun simctl install "$UDID" "$APP"
 xcrun simctl spawn "$UDID" defaults write "$BUNDLE_ID" RCT_jsLocation -string "localhost:${PORT}" || true
+
+# 先啟動一次 App，讓它建立資料容器（AsyncStorage 目錄）。
+# 換過 Bundle ID 就是全新容器，App 沒跑過之前 seed-tasks.py 找不到目錄。
+xcrun simctl launch "$UDID" "$BUNDLE_ID" >/dev/null
+sleep 12
+xcrun simctl terminate "$UDID" "$BUNDLE_ID" 2>/dev/null || true
+sleep 1
 
 # 預熱 idb companion：首次對某個 udid 調用 idb 時要拉起 companion，
 # 那一次點選常被靜默吞掉，先點一個無害位置把 companion 拉起來。

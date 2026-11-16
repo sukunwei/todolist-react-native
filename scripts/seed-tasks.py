@@ -27,7 +27,7 @@ import subprocess
 import sys
 import time
 
-BUNDLE_ID = "com.kunweisu.qingdanben"
+BUNDLE_ID = "com.kunweisu.todolist"
 STORAGE_DIR = "RCTAsyncLocalStorage_V1"
 STORAGE_KEY = "@todolist/tasks/v1"
 

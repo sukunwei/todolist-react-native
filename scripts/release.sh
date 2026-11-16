@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BUNDLE_ID="${BUNDLE_ID:-com.kunweisu.qingdanben}"
+BUNDLE_ID="${BUNDLE_ID:-com.kunweisu.todolist}"
 TEAM_ID="${TEAM_ID:-9NRVT8Q8MQ}"
 METHOD="${METHOD:-app-store}"      # app-store | development | ad-hoc
 DO_UPLOAD=0
@@ -119,7 +119,7 @@ ARCHIVE_ARGS=(
   -allowProvisioningDeviceRegistration
 )
 [ -n "$TEAM_ID" ] && ARCHIVE_ARGS+=("DEVELOPMENT_TEAM=$TEAM_ID")
-[ "$BUNDLE_ID" != "com.kunweisu.qingdanben" ] && ARCHIVE_ARGS+=("PRODUCT_BUNDLE_IDENTIFIER=$BUNDLE_ID")
+[ "$BUNDLE_ID" != "com.kunweisu.todolist" ] && ARCHIVE_ARGS+=("PRODUCT_BUNDLE_IDENTIFIER=$BUNDLE_ID")
 
 xcodebuild "${ARCHIVE_ARGS[@]}"
 

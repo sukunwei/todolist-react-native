@@ -14,7 +14,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BUNDLE_ID="com.kunweisu.qingdanben"
+BUNDLE_ID="com.kunweisu.todolist"
 PORT="${PORT:-8082}"
 SHOT="/tmp/todolist-sim.png"
 DARK=0

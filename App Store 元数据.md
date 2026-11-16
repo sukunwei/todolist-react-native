@@ -122,7 +122,7 @@
 
 | 項 | 值 |
 |---|---|
-| Bundle ID | `com.kunweisu.qingdanben`（需在 Developer Portal 已註冊） |
+| Bundle ID | `com.kunweisu.todolist`（需在 Developer Portal 已註冊） |
 | Team ID | `9NRVT8Q8MQ` |
 | 開發者（賣方）名稱 | `Kunwei SU`（個人賬號，展示的就是這個） |
 | App 隱私標籤 | **不收集資料**（全部選項選「不收集」） |
@@ -153,7 +153,7 @@ App 完全離線運行，不發起任何網路請求，不請求任何系統權�
 - [ ] 隱私政策網頁已部署、可公開訪問
 
 **工程**
-- [x] Bundle ID 已設為 `com.kunweisu.qingdanben`，`project.pbxproj` 已改（`Info.plist` 用的是 `$(PRODUCT_BUNDLE_IDENTIFIER)`，自動跟隨）
+- [x] Bundle ID 已設為 `com.kunweisu.todolist`，`project.pbxproj` 已改（`Info.plist` 用的是 `$(PRODUCT_BUNDLE_IDENTIFIER)`，自動跟隨）
 - [ ] App Store Connect 建 App 記錄時選用同一個 Bundle ID
 - [ ] `MARKETING_VERSION = 1.0.0`、`CURRENT_PROJECT_VERSION = 1`
 - [ ] `TARGETED_DEVICE_FAMILY = 1`（僅 iPhone）
