@@ -27,13 +27,12 @@ function arg(flag, fallback) {
 const PORT = parseInt(arg('--port', '8088'), 10);
 const BUNDLE_ID = 'com.example.todolist';
 const SHOT_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'simview-'));
-const SHOT_FILE = path.join(SHOT_DIR, 'current.png');
 
 // ---------------------------------------------------------------- 设备信息
 
-function run(cmd, args) {
+function run(cmd, cmdArgs) {
   return new Promise((resolve, reject) => {
-    execFile(cmd, args, (err, stdout, stderr) => {
+    execFile(cmd, cmdArgs, (err, stdout, stderr) => {
       if (err) {
         reject(new Error(stderr || err.message));
       } else {
@@ -80,7 +79,6 @@ async function detectScreenSize() {
 // ---------------------------------------------------------------- 抓屏循环
 
 let screenshot = null;
-let screenshotAt = 0;
 let capturing = false;
 
 function captureLoop() {
@@ -95,7 +93,6 @@ function captureLoop() {
       try {
         const buf = fs.readFileSync(tmp);
         screenshot = buf;
-        screenshotAt = Date.now();
         // 首次抓到截图后，用像素尺寸反推点数（假设 2x/3x 屏）
         const width = buf.readUInt32BE(16);
         const height = buf.readUInt32BE(20);
