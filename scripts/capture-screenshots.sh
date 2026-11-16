@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BUNDLE_ID="com.example.todolist"
+BUNDLE_ID="com.kunweisu.qingdanben"
 PORT="${PORT:-8082}"
 OUT_DIR="screenshots"
 IDB="${IDB:-$HOME/.local/share/idb-venv/bin/idb}"

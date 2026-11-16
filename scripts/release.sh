@@ -18,8 +18,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BUNDLE_ID="${BUNDLE_ID:-com.example.todolist}"
-TEAM_ID="${TEAM_ID:-}"
+BUNDLE_ID="${BUNDLE_ID:-com.kunweisu.qingdanben}"
+TEAM_ID="${TEAM_ID:-9NRVT8Q8MQ}"
 METHOD="${METHOD:-app-store}"      # app-store | development | ad-hoc
 DO_UPLOAD=0
 DO_CHECK_ONLY=0
@@ -112,9 +112,14 @@ ARCHIVE_ARGS=(
   -archivePath "$ARCHIVE"
   -destination 'generic/platform=iOS'
   archive
+  # -allowProvisioningUpdates 让 Xcode 自动注册 App ID / 创建证书与描述文件；
+  # -allowProvisioningDeviceRegistration 允许它把连着的真机注册进账号
+  # （账号下没有任何设备时，Development 描述文件无法生成）。
+  -allowProvisioningUpdates
+  -allowProvisioningDeviceRegistration
 )
 [ -n "$TEAM_ID" ] && ARCHIVE_ARGS+=("DEVELOPMENT_TEAM=$TEAM_ID")
-[ "$BUNDLE_ID" != "com.example.todolist" ] && ARCHIVE_ARGS+=("PRODUCT_BUNDLE_IDENTIFIER=$BUNDLE_ID")
+[ "$BUNDLE_ID" != "com.kunweisu.qingdanben" ] && ARCHIVE_ARGS+=("PRODUCT_BUNDLE_IDENTIFIER=$BUNDLE_ID")
 
 xcodebuild "${ARCHIVE_ARGS[@]}"
 

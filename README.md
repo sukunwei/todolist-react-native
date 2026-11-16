@@ -101,7 +101,7 @@ zustand v5 基于 `useSyncExternalStore`，每次 `getSnapshot` 返回新数组�
 
 ## 上架前必做
 
-- [ ] 把 `com.example.todolist` 换成自己的 Bundle ID（`project.pbxproj` / `Info.plist` / App Store Connect 三处一致）
+- [ ] 把 `com.kunweisu.qingdanben` 换成自己的 Bundle ID（`project.pbxproj` / `Info.plist` / App Store Connect 三处一致）
 - [ ] 在 Xcode → Signing & Capabilities 选择付费开发者 Team
 - [ ] 替换正式 App 图标（`scripts/generate-icon.py` 只是占位）
 - [ ] 部署隐私政策页面（**必填**，即使不收集数据也要有）

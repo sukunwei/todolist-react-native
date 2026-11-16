@@ -117,6 +117,14 @@
 |---|---|
 | 隐私政策网址 | `[隐私政策网址]`（内容见 `隐私政策.md`，需先部署成可公开访问的网页） |
 | 支持网址 | `[隐私政策网址]`（可与隐私政策共用一个页面） |
+
+**已确定的标识**
+
+| 项 | 值 |
+|---|---|
+| Bundle ID | `com.kunweisu.qingdanben`（需在 Developer Portal 已注册） |
+| Team ID | `9NRVT8Q8MQ` |
+| 开发者（卖方）名称 | `Kunwei SU`（个人账号，展示的就是这个） |
 | App 隐私标签 | **不收集数据**（全部选项选「不收集」） |
 | 出口合规 | 不含加密 → 走豁免流程 |
 | 追踪权限（ATT） | 不请求 |
@@ -145,10 +153,12 @@ App 完全离线运行，不发起任何网络请求，不请求任何系统权�
 - [ ] 隐私政策网页已部署、可公开访问
 
 **工程**
-- [ ] Bundle ID 已从 `com.example.todolist` 换成正式值，`project.pbxproj` / `Info.plist` / App Store Connect 三处一致
+- [x] Bundle ID 已设为 `com.kunweisu.qingdanben`，`project.pbxproj` 已改（`Info.plist` 用的是 `$(PRODUCT_BUNDLE_IDENTIFIER)`，自动跟随）
+- [ ] App Store Connect 建 App 记录时选用同一个 Bundle ID
 - [ ] `MARKETING_VERSION = 1.0.0`、`CURRENT_PROJECT_VERSION = 1`
 - [ ] `TARGETED_DEVICE_FAMILY = 1`（仅 iPhone）
-- [ ] Xcode → Signing & Capabilities 选择了付费开发者 Team
+- [x] Xcode 已登录付费账号，Team `9NRVT8Q8MQ`（Kunwei SU）
+- [ ] `DEVELOPMENT_TEAM` 已写入工程（已完成）
 - [ ] `PrivacyInfo.xcprivacy` 已核对
 
 **质量**
