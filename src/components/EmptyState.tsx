@@ -11,23 +11,23 @@ interface EmptyStateProps {
 
 const COPY: Record<TaskFilter, { title: string; hint: string; glyph: string }> = {
   all: {
-    title: '还没有任务',
-    hint: '点击右下角的 + 添加第一条待办',
+    title: '還沒有任務',
+    hint: '點選右下角的 + 添加第一條待辦',
     glyph: '✓',
   },
   active: {
-    title: '没有待办事项',
-    hint: '所有任务都已完成，保持得不错',
+    title: '沒有待辦事項',
+    hint: '所有任務都已完成，保持得不錯',
     glyph: '✓',
   },
   done: {
-    title: '还没有完成的任务',
-    hint: '完成的任务会归档到这里',
+    title: '還沒有完成的任務',
+    hint: '完成的任務會歸檔到這裡',
     glyph: '○',
   },
 };
 
-/** 列表空状态占位 */
+/** 列表空狀態佔位 */
 export default function EmptyState({ filter, onCreate }: EmptyStateProps) {
   const theme = useTheme();
   const copy = COPY[filter];
@@ -49,7 +49,7 @@ export default function EmptyState({ filter, onCreate }: EmptyStateProps) {
         <Pressable
           onPress={onCreate}
           accessibilityRole="button"
-          accessibilityLabel="新建任务"
+          accessibilityLabel="新增任務"
           style={({ pressed }) => [
             styles.button,
             {
@@ -58,7 +58,7 @@ export default function EmptyState({ filter, onCreate }: EmptyStateProps) {
             },
           ]}>
           <Text style={[styles.buttonText, { color: theme.colors.onPrimary }]}>
-            新建任务
+            新增任務
           </Text>
         </Pressable>
       ) : null}

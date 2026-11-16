@@ -8,9 +8,9 @@ import { AsyncStorage, STORAGE_VERSION, TASK_STORAGE_KEY } from './storage';
 
 export interface TaskState {
   tasks: Task[];
-  /** 列表筛选维度（UI 态，不持久化） */
+  /** 列表篩選維度（UI 態，不持久化） */
   filter: TaskFilter;
-  /** 是否已完成从本地存储恢复。false 时 UI 显示加载态，避免空列表闪烁 */
+  /** 是否已完成從本機儲存恢復。false 時 UI 顯示載入態，避免空列表閃爍 */
   hydrated: boolean;
 
   addTask: (input: NewTaskInput) => string;
@@ -21,20 +21,20 @@ export interface TaskState {
   deleteTask: (id: string) => void;
   toggleTask: (id: string) => void;
   setFilter: (filter: TaskFilter) => void;
-  /** 上移 / 下移。只在同组（未完成组内部、已完成组内部）相邻任务间移动 */
+  /** 上移 / 下移。只在同組（未完成組內部、已完成組內部）相鄰任務間移動 */
   moveTask: (id: string, direction: 'up' | 'down') => void;
   clearCompleted: () => void;
   setHydrated: (hydrated: boolean) => void;
 }
 
-/** 持久化到 AsyncStorage 的部分：只有任务数据 */
+/** 持久化到 AsyncStorage 的部分：只有任務資料 */
 type PersistedTaskState = Pick<TaskState, 'tasks'>;
 
 /**
- * 任务 store。
+ * 任務 store。
  *
- * 用 Zustand 而非 Redux：待办列表没有跨页面共享的复杂 action 链，
- * hooks 直读直写更直观；`persist` 中间件自动落盘，不需要手写保存逻辑。
+ * 用 Zustand 而非 Redux：待辦列表沒有跨頁面共享的複雜 action 鏈，
+ * hooks 直讀直寫更直觀；`persist` 中間件自動落盤，不需要手寫保存邏輯。
  */
 export const useTaskStore = create<TaskState>()(
   persist<TaskState, [], [], PersistedTaskState>(
@@ -53,8 +53,8 @@ export const useTaskStore = create<TaskState>()(
         }
 
         set(state => {
-          // 新任务排在最上方：order 取当前最小值减一。
-          // （排序规则里 status 优先于 order，所以未完成的新任务会落在未完成组顶部）
+          // 新任務排在最上方：order 取當前最小值減一。
+          // （排序規則裡 status 優先於 order，所以未完成的新任務會落在未完成組頂部）
           const minOrder = state.tasks.length
             ? Math.min(...state.tasks.map(task => task.order))
             : 0;
@@ -112,7 +112,7 @@ export const useTaskStore = create<TaskState>()(
             }
             const now = Date.now();
             if (task.status === 'done') {
-              // 重新打开：清除完成时间
+              // 重新打開：清除完成時間
               const next: Task = { ...task, status: 'active', updatedAt: now };
               delete next.completedAt;
               return next;
@@ -125,8 +125,8 @@ export const useTaskStore = create<TaskState>()(
 
       moveTask: (id, direction) =>
         set(state => {
-          // 按「用户当前看到的筛选视图」移动，而不是全量列表。
-          // 否则在「已完成」筛选下，上移会撞上未完成任务而被边界检查拦掉。
+          // 按「使用者當前看到的篩選檢視」移動，而不是全量列表。
+          // 否則在「已完成」篩選下，上移會撞上未完成任務而被邊界檢查攔掉。
           const visible = selectVisible(state.tasks, state.filter);
           const index = visible.findIndex(task => task.id === id);
           if (index === -1) {
@@ -138,7 +138,7 @@ export const useTaskStore = create<TaskState>()(
             return state;
           }
 
-          // 不允许跨越「未完成 / 已完成」分组边界
+          // 不允許跨越「未完成 / 已完成」分組邊界
           if (visible[target].status !== visible[index].status) {
             return state;
           }
@@ -147,9 +147,9 @@ export const useTaskStore = create<TaskState>()(
           const [moved] = next.splice(index, 1);
           next.splice(target, 0, moved);
 
-          // 为可见的这一组重新编号 order。
-          // 因为排序先比较 status、再比较 order，两个分组可以各自独立编号，
-          // 不会互相干扰。
+          // 為可見的這一組重新編號 order。
+          // 因為排序先比較 status、再比較 order，兩個分組可以各自獨立編號，
+          // 不會互相干擾。
           const base = Math.min(...visible.map(task => task.order));
           const orderById = new Map<string, number>();
           next.forEach((task, i) => orderById.set(task.id, base + i));
@@ -182,10 +182,10 @@ export const useTaskStore = create<TaskState>()(
       name: TASK_STORAGE_KEY,
       storage: createJSONStorage(() => AsyncStorage),
       version: STORAGE_VERSION,
-      // 只持久化 tasks，filter 等纯 UI 态不落盘
+      // 只持久化 tasks，filter 等純 UI 態不落盤
       partialize: state => ({ tasks: state.tasks }),
-      // 结构变更时在这里做升级。当前只有 v1，原样透传；
-      // 将来若改字段结构，按 persistedState.version 写分支转换即可。
+      // 結構變更時在這裡做升級。當前只有 v1，原樣透傳；
+      // 將來若改欄位結構，按 persistedState.version 寫分支轉換即可。
       migrate: persistedState => persistedState as PersistedTaskState,
       onRehydrateStorage: () => state => {
         state?.setHydrated(true);
@@ -194,7 +194,7 @@ export const useTaskStore = create<TaskState>()(
   ),
 );
 
-/** 测试用：读取当前 state（不订阅） */
+/** 測試用：讀取當前 state（不訂閱） */
 export function getTaskState(): TaskState {
   return useTaskStore.getState();
 }

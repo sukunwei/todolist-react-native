@@ -1,5 +1,5 @@
 /**
- * 相对时间格式化，用于任务行下方的「3 分钟前」这类辅助文案。
+ * 相對時間格式化，用於任務行下方的「3 分鐘前」這類輔助文案。
  */
 
 const MINUTE = 60 * 1000;
@@ -10,13 +10,13 @@ export function formatRelativeTime(timestamp: number, now: number = Date.now()):
   const diff = now - timestamp;
 
   if (diff < MINUTE) {
-    return '刚刚';
+    return '剛剛';
   }
   if (diff < HOUR) {
-    return `${Math.floor(diff / MINUTE)} 分钟前`;
+    return `${Math.floor(diff / MINUTE)} 分鐘前`;
   }
   if (diff < DAY) {
-    return `${Math.floor(diff / HOUR)} 小时前`;
+    return `${Math.floor(diff / HOUR)} 小時前`;
   }
   if (diff < 30 * DAY) {
     return `${Math.floor(diff / DAY)} 天前`;

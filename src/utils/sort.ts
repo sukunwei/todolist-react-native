@@ -1,15 +1,15 @@
 import { PRIORITY_WEIGHT, type Task, type TaskFilter } from '../types/task';
 
 /**
- * 任务排序的权威实现。
+ * 任務排序的權威實現。
  *
- * 规则（与开发计划 §6.2 一致）：
- *   1. 未完成在前，已完成沉底（status 优先于一切）
- *   2. 组内按 order 升序
- *   3. order 相同时，优先级高的在前（high → medium → low）
- *   4. 仍相同时，创建时间新的在前
+ * 規則（與開發計劃 §6.2 一致）：
+ *   1. 未完成在前，已完成沉底（status 優先於一切）
+ *   2. 組內按 order 升序
+ *   3. order 相同時，優先級高的在前（high → medium → low）
+ *   4. 仍相同時，創建時間新的在前
  *
- * 组件里不要另写排序逻辑，一律调用这里。
+ * 元件裡不要另寫排序邏輯，一律調用這裡。
  */
 export function sortTasks(tasks: Task[]): Task[] {
   return [...tasks].sort((a, b) => {
@@ -28,7 +28,7 @@ export function sortTasks(tasks: Task[]): Task[] {
 }
 
 /**
- * 按筛选维度过滤。空状态的文案分支依赖它，所以放在这里统一处理。
+ * 按篩選維度過濾。空狀態的文案分支依賴它，所以放在這裡統一處理。
  */
 export function filterTasks(tasks: Task[], filter: Task['status'] | 'all'): Task[] {
   if (filter === 'all') {
@@ -38,7 +38,7 @@ export function filterTasks(tasks: Task[], filter: Task['status'] | 'all'): Task
 }
 
 /**
- * 列表统计摘要，用于顶部概览条。
+ * 列表統計摘要，用於頂部概覽條。
  */
 export function summarize(tasks: Task[]) {
   const total = tasks.length;
@@ -49,11 +49,11 @@ export function summarize(tasks: Task[]) {
 }
 
 /**
- * 筛选 + 排序一步到位。
+ * 篩選 + 排序一步到位。
  *
- * 组件里请用这个函数配合 useMemo，不要把结果直接作为 zustand 的 selector
- * 返回——那样每次 getSnapshot 都会拿到新数组引用，在 zustand v5 + React 18
- * 的 useSyncExternalStore 下会触发无限重渲染。
+ * 元件裡請用這個函數配合 useMemo，不要把結果直接作為 zustand 的 selector
+ * 返回——那樣每次 getSnapshot 都會拿到新數組引用，在 zustand v5 + React 18
+ * 的 useSyncExternalStore 下會觸發無限重渲染。
  */
 export function selectVisible(tasks: Task[], filter: TaskFilter): Task[] {
   return sortTasks(filterTasks(tasks, filter));

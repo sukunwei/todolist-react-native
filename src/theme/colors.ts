@@ -1,8 +1,8 @@
 /**
- * 颜色 token。
+ * 顏色 token。
  *
- * 两套色值（浅色 / 深色），跟随系统 `useColorScheme` 切换。
- * 组件里不要写死颜色，一律从这里取，否则深色模式会出现「白底白字」。
+ * 兩套色值（淺色 / 深色），跟隨系統 `useColorScheme` 切換。
+ * 元件裡不要寫死顏色，一律從這裡取，否則深色模式會出現「白底白字」。
  */
 
 export interface ThemeColors {

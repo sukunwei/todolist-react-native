@@ -1,8 +1,8 @@
 /**
- * TODOLIST — 本地待办清单 App
+ * TODOLIST — 本機待辦清單 App
  *
  * 入口：SafeAreaProvider → StatusBar → RootNavigator
- * 数据全部保存在设备本地（AsyncStorage），不联网、不采集任何数据。
+ * 資料全部保存在裝置本機（AsyncStorage），不連線、不蒐集任何資料。
  *
  * @format
  */

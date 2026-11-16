@@ -8,7 +8,7 @@ interface PriorityBadgeProps {
   priority: Priority;
 }
 
-/** 优先级角标：高 / 中 / 低 */
+/** 優先級角標：高 / 中 / 低 */
 export default function PriorityBadge({ priority }: PriorityBadgeProps) {
   const theme = useTheme();
 
@@ -22,7 +22,7 @@ export default function PriorityBadge({ priority }: PriorityBadgeProps) {
   return (
     <View
       style={[styles.badge, { borderColor: color }]}
-      accessibilityLabel={`优先级${PRIORITY_LABEL[priority]}`}>
+      accessibilityLabel={`優先級${PRIORITY_LABEL[priority]}`}>
       <Text style={[styles.label, { color }]}>{PRIORITY_LABEL[priority]}</Text>
     </View>
   );

@@ -14,9 +14,9 @@ export interface Theme {
 }
 
 /**
- * 主题 hook。跟随系统深浅色。
+ * 主題 hook。跟隨系統深淺色。
  *
- * 用法：`const theme = useTheme();` 然后 `theme.colors.primary` 等。
+ * 用法：`const theme = useTheme();` 然後 `theme.colors.primary` 等。
  */
 export function useTheme(): Theme {
   const scheme = useColorScheme();

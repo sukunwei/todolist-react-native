@@ -12,11 +12,11 @@ interface TaskFilterBarProps {
 
 const FILTERS: { key: TaskFilter; label: string }[] = [
   { key: 'all', label: '全部' },
-  { key: 'active', label: '进行中' },
+  { key: 'active', label: '進行中' },
   { key: 'done', label: '已完成' },
 ];
 
-/** 顶部的三段式筛选控件 */
+/** 頂部的三段式篩選控制項 */
 export default function TaskFilterBar({
   filter,
   counts,
@@ -36,7 +36,7 @@ export default function TaskFilterBar({
             onPress={() => onChange(item.key)}
             accessibilityRole="tab"
             accessibilityState={{ selected }}
-            accessibilityLabel={`${item.label}，${counts[item.key]} 项`}
+            accessibilityLabel={`${item.label}，${counts[item.key]} 項`}
             style={styles.segment}>
             <Text
               style={[

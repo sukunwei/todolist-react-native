@@ -19,14 +19,14 @@ import type { Task } from '../types/task';
 import { successFeedback, tapFeedback, warningFeedback } from '../utils/haptics';
 import { selectVisible, summarize } from '../utils/sort';
 
-/** 任务主列表页 */
+/** 任務主列表頁 */
 export default function TaskListScreen({ navigation }: TaskListScreenProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  // 注意：这里只 select 稳定引用（数组本身 / 原始值），
-  // 派生列表用 useMemo 计算。若把 useMemo 的结果直接交给 selector，
-  // zustand v5 下每次 getSnapshot 都是新引用，会触发无限重渲染。
+  // 注意：這裡只 select 穩定引用（數組本身 / 原始值），
+  // 派生列表用 useMemo 計算。若把 useMemo 的結果直接交給 selector，
+  // zustand v5 下每次 getSnapshot 都是新引用，會觸發無限重渲染。
   const tasks = useTaskStore(state => state.tasks);
   const filter = useTaskStore(state => state.filter);
   const hydrated = useTaskStore(state => state.hydrated);
@@ -48,12 +48,12 @@ export default function TaskListScreen({ navigation }: TaskListScreenProps) {
   const handleDelete = useCallback(
     (task: Task) => {
       Alert.alert(
-        '删除任务',
-        `确定要删除「${task.title}」吗？此操作无法撤销。`,
+        '刪除任務',
+        `確定要刪除「${task.title}」嗎？此操作無法撤銷。`,
         [
           { text: '取消', style: 'cancel' },
           {
-            text: '删除',
+            text: '刪除',
             style: 'destructive',
             onPress: () => {
               deleteTask(task.id);
@@ -69,7 +69,7 @@ export default function TaskListScreen({ navigation }: TaskListScreenProps) {
   const handleClearCompleted = useCallback(() => {
     Alert.alert(
       '清除已完成',
-      `确定要清除全部 ${stats.done} 项已完成的任务吗？`,
+      `確定要清除全部 ${stats.done} 項已完成的任務嗎？`,
       [
         { text: '取消', style: 'cancel' },
         {
@@ -125,7 +125,7 @@ export default function TaskListScreen({ navigation }: TaskListScreenProps) {
         <Pressable
           onPress={handleClearCompleted}
           accessibilityRole="button"
-          accessibilityLabel={`清除全部 ${stats.done} 项已完成的任务`}
+          accessibilityLabel={`清除全部 ${stats.done} 項已完成的任務`}
           style={({ pressed }) => [
             styles.clearButton,
             {
@@ -144,9 +144,9 @@ export default function TaskListScreen({ navigation }: TaskListScreenProps) {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.bg }]}>
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Text style={[styles.title, { color: theme.colors.text }]}>待办清单</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>待辦清單</Text>
         <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-          共 {stats.total} 项 · 待办 {stats.active} 项 · 完成率 {stats.completionRate}%
+          共 {stats.total} 項 · 待辦 {stats.active} 項 · 完成率 {stats.completionRate}%
         </Text>
       </View>
 
@@ -169,7 +169,7 @@ export default function TaskListScreen({ navigation }: TaskListScreenProps) {
       <Pressable
         onPress={() => navigation.navigate('TaskEditor')}
         accessibilityRole="button"
-        accessibilityLabel="新建任务"
+        accessibilityLabel="新增任務"
         style={({ pressed }) => [
           styles.fab,
           {

@@ -1,46 +1,46 @@
 /**
- * 任务（Task）领域模型。
+ * 任務（Task）領域模型。
  *
- * 所有类型都保持「结构化 + 可序列化」，这样整个 tasks 数组可以原样存进
- * AsyncStorage，不需要额外的序列化层。
+ * 所有類型都保持「結構化 + 可序列化」，這樣整個 tasks 數組可以原樣存進
+ * AsyncStorage，不需要額外的序列化層。
  */
 
 export type Priority = 'high' | 'medium' | 'low';
 
 export type TaskStatus = 'active' | 'done';
 
-/** 列表筛选维度 */
+/** 列表篩選維度 */
 export type TaskFilter = 'all' | 'active' | 'done';
 
 export interface Task {
   id: string;
   title: string;
   notes?: string;
-  /** 优先级，恒有值，默认 'medium'——不存 undefined，避免排序时出现空洞 */
+  /** 優先級，恆有值，預設 'medium'——不存 undefined，避免排序時出現空洞 */
   priority: Priority;
   status: TaskStatus;
   /**
-   * 排序键，升序（值越小越靠上）。
+   * 排序鍵，升序（值越小越靠上）。
    *
-   * 渲染顺序规则见 `src/utils/sort.ts`：先按 status 分组（已完成永远沉底），
-   * 组内按 order 升序，order 相同时再按优先级、创建时间兜底。
+   * 渲染順序規則見 `src/utils/sort.ts`：先按 status 分組（已完成永遠沉底），
+   * 組內按 order 升序，order 相同時再按優先級、創建時間兜底。
    */
   order: number;
   /** epoch ms */
   createdAt: number;
   updatedAt: number;
-  /** 完成时间；重新打开任务时清除 */
+  /** 完成時間；重新打開任務時清除 */
   completedAt?: number;
 }
 
-/** 新建任务的入参 */
+/** 新增任務的入參 */
 export interface NewTaskInput {
   title: string;
   notes?: string;
   priority?: Priority;
 }
 
-/** 优先级对应的权重，数值越小越优先 */
+/** 優先級對應的權重，數值越小越優先 */
 export const PRIORITY_WEIGHT: Record<Priority, number> = {
   high: 0,
   medium: 1,

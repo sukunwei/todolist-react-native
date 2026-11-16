@@ -8,8 +8,8 @@ import type { Task } from '../src/types/task';
 
 const task: Task = {
   id: 't1',
-  title: '买牛奶',
-  notes: '无糖',
+  title: '買牛奶',
+  notes: '無糖',
   priority: 'high',
   status: 'active',
   order: 0,
@@ -20,7 +20,7 @@ const task: Task = {
 const route = { params: { taskId: 't1' }, key: 'k', name: 'TaskEditor' } as never;
 const navigation = { goBack: jest.fn() } as never;
 
-/** 取第 n 个 TextInput 的 value */
+/** 取第 n 個 TextInput 的 value */
 function inputValue(tree: ReactTestRenderer.ReactTestRenderer, index: number) {
   const inputs = tree.root.findAllByType(TextInput);
   return inputs[index]?.props.value;
@@ -28,16 +28,16 @@ function inputValue(tree: ReactTestRenderer.ReactTestRenderer, index: number) {
 
 describe('TaskEditorModal', () => {
   beforeEach(() => {
-    // setState 会触发订阅组件重渲染，必须包在 act 里
+    // setState 會觸發訂閱元件重渲染，必須包在 act 裡
     ReactTestRenderer.act(() => {
       useTaskStore.setState({ tasks: [], filter: 'all', hydrated: false });
     });
   });
 
-  it('编辑模式下，任务数据异步到达后要回填表单', async () => {
+  it('編輯模式下，任務資料異步到達後要回填表單', async () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
 
-    // 首次渲染时 store 还是空的（模拟 AsyncStorage 尚未 rehydrate 完成）
+    // 首次渲染時 store 還是空的（模擬 AsyncStorage 尚未 rehydrate 完成）
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(
         <TaskEditorModal route={route} navigation={navigation} />,
@@ -46,18 +46,18 @@ describe('TaskEditorModal', () => {
 
     expect(inputValue(tree, 0)).toBe('');
 
-    // 数据到达
+    // 資料到達
     await ReactTestRenderer.act(async () => {
       useTaskStore.setState({ tasks: [task], hydrated: true });
     });
 
-    // 这是回归用例：早前实现只在首次渲染用 useState 初始值，
-    // 数据晚到时不会回填，表现为「编辑任务时标题是空的」。
-    expect(inputValue(tree, 0)).toBe('买牛奶');
-    expect(inputValue(tree, 1)).toBe('无糖');
+    // 這是迴歸用例：早前實現只在首次渲染用 useState 初始值，
+    // 資料晚到時不會回填，表現為「編輯任務時標題是空的」。
+    expect(inputValue(tree, 0)).toBe('買牛奶');
+    expect(inputValue(tree, 1)).toBe('無糖');
   });
 
-  it('新建模式下表单为空，优先级默认为中', async () => {
+  it('新增模式下表單為空，優先級預設為中', async () => {
     const newRoute = { params: undefined, key: 'k2', name: 'TaskEditor' } as never;
     let tree!: ReactTestRenderer.ReactTestRenderer;
 
@@ -72,7 +72,7 @@ describe('TaskEditorModal', () => {
     expect(inputValue(tree, 1)).toBe('');
   });
 
-  it('编辑模式下任务数据没到达时不允许保存', async () => {
+  it('編輯模式下任務資料沒到達時不允許保存', async () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
 
     await ReactTestRenderer.act(async () => {
@@ -81,7 +81,7 @@ describe('TaskEditorModal', () => {
       );
     });
 
-    // 找到「保存修改」按钮，disabled 状态下应为 true
+    // 找到「保存修改」按鈕，disabled 狀態下應為 true
     const saveButton = tree.root
       .findAllByProps({ accessibilityLabel: '保存修改' })[0];
     expect(saveButton.props.accessibilityState.disabled).toBe(true);

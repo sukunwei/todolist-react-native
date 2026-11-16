@@ -1,10 +1,10 @@
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 /**
- * 触感反馈封装。
+ * 觸感回饋封裝。
  *
- * 模拟器里没有触感硬件、原生模块也可能缺失，所以全部吞掉异常做静默降级——
- * 触感属于锦上添花，绝不能因为它让 App 崩溃。
+ * 模擬器裡沒有觸感硬體、原生模塊也可能缺失，所以全部吞掉異常做靜默降級——
+ * 觸感屬於錦上添花，絕不能因為它讓 App 崩潰。
  */
 
 const OPTIONS = {
@@ -16,21 +16,21 @@ function trigger(type: string): void {
   try {
     ReactNativeHapticFeedback.trigger(type as never, OPTIONS);
   } catch {
-    // 静默降级
+    // 靜默降級
   }
 }
 
-/** 轻点：勾选、排序等常规操作 */
+/** 輕點：勾選、排序等常規操作 */
 export function tapFeedback(): void {
   trigger('impactLight');
 }
 
-/** 成功：删除、完成等有结果的操作 */
+/** 成功：刪除、完成等有結果的操作 */
 export function successFeedback(): void {
   trigger('notificationSuccess');
 }
 
-/** 警告：破坏性操作 */
+/** 警告：破壞性操作 */
 export function warningFeedback(): void {
   trigger('notificationWarning');
 }

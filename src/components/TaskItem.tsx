@@ -13,7 +13,7 @@ interface TaskItemProps {
   onDelete: () => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
-  /** 已经在本组最上方 / 最下方时为 false，按钮置灰 */
+  /** 已經在本組最上方 / 最下方時為 false，按鈕置灰 */
   canMoveUp: boolean;
   canMoveDown: boolean;
 }
@@ -44,7 +44,7 @@ function IconButton({ glyph, label, onPress, color, disabled }: IconButtonProps)
   );
 }
 
-/** 列表中的单行任务 */
+/** 列表中的單行任務 */
 export default function TaskItem({
   task,
   onToggle,
@@ -79,7 +79,7 @@ export default function TaskItem({
         hitSlop={10}
         accessibilityRole="checkbox"
         accessibilityState={{ checked: done }}
-        accessibilityLabel={`将「${task.title}」标记为${done ? '未完成' : '已完成'}`}
+        accessibilityLabel={`將「${task.title}」標記為${done ? '未完成' : '已完成'}`}
         style={styles.checkboxHit}>
         <View
           style={[
@@ -97,8 +97,8 @@ export default function TaskItem({
         style={styles.content}
         onPress={onEdit}
         accessibilityRole="button"
-        accessibilityLabel={`编辑任务「${task.title}」`}
-        accessibilityHint="打开编辑界面修改标题、优先级和备注">
+        accessibilityLabel={`編輯任務「${task.title}」`}
+        accessibilityHint="打開編輯介面修改標題、優先級和備註">
         <View style={[styles.priorityBar, { backgroundColor: priorityColor }]} />
         <View style={styles.textColumn}>
           <Text
@@ -132,21 +132,21 @@ export default function TaskItem({
       <View style={styles.actions}>
         <IconButton
           glyph="↑"
-          label={`将「${task.title}」上移`}
+          label={`將「${task.title}」上移`}
           onPress={onMoveUp}
           color={theme.colors.textSecondary}
           disabled={!canMoveUp}
         />
         <IconButton
           glyph="↓"
-          label={`将「${task.title}」下移`}
+          label={`將「${task.title}」下移`}
           onPress={onMoveDown}
           color={theme.colors.textSecondary}
           disabled={!canMoveDown}
         />
         <IconButton
           glyph="✕"
-          label={`删除「${task.title}」`}
+          label={`刪除「${task.title}」`}
           onPress={onDelete}
           color={theme.colors.danger}
         />

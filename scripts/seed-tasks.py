@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
-"""往模拟器里灌入一批示例任务。
+"""往模擬器裡灌入一批示例任務。
 
 用途：
-  * 快速验证列表渲染（优先级色条、勾选态、排序按钮、筛选计数、统计摘要）
-  * 生成 App Store 截图用的真实感内容
+  * 快速驗證列表渲染（優先級色條、勾選態、排序按鈕、篩選計數、統計摘要）
+  * 生成 App Store 截圖用的真實感內容
 
 用法：
-    python3 scripts/seed-tasks.py                 # 自动找已启动的模拟器
+    python3 scripts/seed-tasks.py                 # 自動找已啟動的模擬器
     python3 scripts/seed-tasks.py <SIMULATOR_UDID>
-    python3 scripts/seed-tasks.py --no-relaunch   # 只写数据，不重启 App
+    python3 scripts/seed-tasks.py --no-relaunch   # 只寫資料，不重啟 App
 
 原理：
-    AsyncStorage 在 iOS 上把键值对存在
-      <数据容器>/Library/Application Support/<BundleID>/RCTAsyncLocalStorage_V1/manifest.json
-    其中小值直接内联。zustand persist 的落盘格式是
+    AsyncStorage 在 iOS 上把鍵值對存在
+      <資料容器>/Library/Application Support/<BundleID>/RCTAsyncLocalStorage_V1/manifest.json
+    其中小值直接內聯。zustand persist 的落盤格式是
       {"state": {...被持久化的部分...}, "version": N}
-    本项目的持久化部分只有 {"tasks": [...]}。
+    本項目的持久化部分只有 {"tasks": [...]}。
 
-注意：写完必须重启 App，内存里的 AsyncStorage 缓存才会重新读盘。
+注意：寫完必須重啟 App，記憶體裡的 AsyncStorage 快取才會重新讀盤。
 """
 
 import json
@@ -27,7 +27,7 @@ import subprocess
 import sys
 import time
 
-BUNDLE_ID = "com.example.todolist"
+BUNDLE_ID = "com.kunweisu.qingdanben"
 STORAGE_DIR = "RCTAsyncLocalStorage_V1"
 STORAGE_KEY = "@todolist/tasks/v1"
 
@@ -56,30 +56,30 @@ def make_task(task_id, title, priority, status, order, created_offset, notes=Non
 
 
 def build_tasks(count=6):
-    """示例任务。order 小的排在上面。"""
+    """示例任務。order 小的排在上面。"""
     presets = [
-        make_task("seed-1", "买牛奶和鸡蛋", "high", "active", 0, 12 * MINUTE),
+        make_task("seed-1", "買牛奶和雞蛋", "high", "active", 0, 12 * MINUTE),
         make_task(
             "seed-2",
-            "写完这周的项目周报",
+            "寫完這周的項目週報",
             "medium",
             "active",
             1,
             2 * HOUR,
-            notes="重点写清楚灰度发布的结论",
+            notes="重點寫清楚灰度發佈的結論",
         ),
-        make_task("seed-3", "预约下周的体检", "low", "active", 2, 5 * HOUR),
-        make_task("seed-4", "读完《设计中的设计》第三章", "medium", "active", 3, 1 * DAY),
-        make_task("seed-5", "给妈妈打个电话", "high", "done", 4, 2 * DAY),
+        make_task("seed-3", "預約下週的體檢", "low", "active", 2, 5 * HOUR),
+        make_task("seed-4", "讀完《設計中的設計》第三章", "medium", "active", 3, 1 * DAY),
+        make_task("seed-5", "給媽媽打個電話", "high", "done", 4, 2 * DAY),
         make_task("seed-6", "交房租", "medium", "done", 5, 3 * DAY),
     ]
 
     if count <= len(presets):
         return presets[:count]
 
-    # 超出预置数量时批量补齐，用于压测长列表性能
+    # 超出預置數量時批量補齊，用於壓測長列表性能
     tasks = list(presets)
-    fillers = ["整理桌面", "回复邮件", "取快递", "跑步 3 公里", "读 30 页书"]
+    fillers = ["整理桌面", "回覆郵件", "取快遞", "跑步 3 公里", "讀 30 頁書"]
     for i in range(count - len(presets)):
         status = "done" if i % 4 == 3 else "active"
         tasks.append(
@@ -107,18 +107,18 @@ def find_udid(explicit=None):
         if "(Booted)" not in line:
             continue
         # 行格式形如：  iPhone 18 Pro (5AD63204-1068-4D07-B530-59C6BD0353C7) (Booted)
-        # 设备名里可能带空格和括号，所以要匹配第一组形如 UUID 的括号
+        # 裝置名裡可能帶空格和括號，所以要匹配第一組形如 UUID 的括號
         match = re.search(r"\(([0-9A-Fa-f-]{20,})\)", line)
         if match:
             return match.group(1)
-    raise SystemExit("找不到已启动的模拟器。请先启动一个，或显式传入 UDID。")
+    raise SystemExit("找不到已啟動的模擬器。請先啟動一個，或顯式傳入 UDID。")
 
 
 def main():
     raw = sys.argv[1:]
     relaunch = "--no-relaunch" not in raw
 
-    # --count N：生成 N 条任务（默认 6）。用于压测长列表性能。
+    # --count N：生成 N 條任務（預設 6）。用於壓測長列表性能。
     count = 6
     positional = []
     i = 0
@@ -145,8 +145,8 @@ def main():
 
     if not os.path.isdir(storage_path):
         raise SystemExit(
-            f"找不到 AsyncStorage 目录：{storage_path}\n"
-            "App 可能还没启动过。先跑一次 App 再执行本脚本。"
+            f"找不到 AsyncStorage 目錄：{storage_path}\n"
+            "App 可能還沒啟動過。先跑一次 App 再執行本腳本。"
         )
 
     payload = json.dumps(
@@ -156,7 +156,7 @@ def main():
     )
     manifest = {STORAGE_KEY: payload}
 
-    # 先停 App，避免它退出时用内存里的旧值覆盖我们写入的内容
+    # 先停 App，避免它退出時用記憶體裡的舊值覆蓋我們寫入的內容
     subprocess.run(
         ["xcrun", "simctl", "terminate", udid, BUNDLE_ID],
         capture_output=True,
@@ -166,11 +166,11 @@ def main():
     with open(manifest_path, "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False)
 
-    print(f"已写入 {len(build_tasks(count))} 条示例任务 → {manifest_path}")
+    print(f"已寫入 {len(build_tasks(count))} 條示例任務 → {manifest_path}")
 
     if relaunch:
         run(["xcrun", "simctl", "launch", udid, BUNDLE_ID])
-        print(f"已重启 App（模拟器 {udid}）")
+        print(f"已重啟 App（模擬器 {udid}）")
 
 
 if __name__ == "__main__":

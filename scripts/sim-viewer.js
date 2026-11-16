@@ -25,7 +25,7 @@ function arg(flag, fallback) {
 }
 
 const PORT = parseInt(arg('--port', '8088'), 10);
-const BUNDLE_ID = 'com.example.todolist';
+const BUNDLE_ID = 'com.kunweisu.qingdanben';
 const SHOT_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'simview-'));
 
 // ---------------------------------------------------------------- 设备信息

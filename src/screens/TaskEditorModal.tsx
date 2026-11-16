@@ -21,9 +21,9 @@ const MAX_TITLE_LENGTH = 100;
 const PRIORITIES: Priority[] = ['high', 'medium', 'low'];
 
 /**
- * 新建 / 编辑任务弹窗。
+ * 新增 / 編輯任務彈出視窗。
  *
- * 两种模式复用同一个组件：带 taskId 就是编辑，不带就是新建。
+ * 兩種模式複用同一個元件：帶 taskId 就是編輯，不帶就是新增。
  */
 export default function TaskEditorModal({ navigation, route }: TaskEditorScreenProps) {
   const theme = useTheme();
@@ -44,12 +44,12 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
   const [showValidation, setShowValidation] = useState(false);
 
   /**
-   * 预填表单。
+   * 預填表單。
    *
-   * 不能只靠 useState 的初始值：任务数据是从 AsyncStorage 异步 rehydrate 回来的，
-   * 本组件挂载时 tasks 往往还是空的，初始值会写成空字符串，之后数据到了也不会
-   * 再更新——表现为「编辑任务时标题是空的」，保存后就把原内容清掉了。
-   * 所以这里在数据到达时补一次初始化，且每个任务只补一次。
+   * 不能只靠 useState 的初始值：任務資料是從 AsyncStorage 異步 rehydrate 回來的，
+   * 本元件掛載時 tasks 往往還是空的，初始值會寫成空字元串，之後資料到了也不會
+   * 再更新——表現為「編輯任務時標題是空的」，保存後就把原內容清掉了。
+   * 所以這裡在資料到達時補一次初始化，且每個任務只補一次。
    */
   const initializedTaskId = useRef<string | null>(null);
   useEffect(() => {
@@ -61,12 +61,12 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
     }
   }, [existing]);
 
-  // 是否编辑态以路由参数为准：params 立即可用，而 tasks 要等 rehydrate。
-  // 用 existing 判断会让标题在数据到达前短暂显示成「新建任务」。
+  // 是否編輯態以路由參數為準：params 立即可用，而 tasks 要等 rehydrate。
+  // 用 existing 判斷會讓標題在資料到達前短暫顯示成「新增任務」。
   const isEditing = !!taskId;
 
   const trimmedTitle = title.trim();
-  // 编辑态下必须等任务数据到达才能保存，否则会被误当成新建而插一条重复任务
+  // 編輯態下必須等任務資料到達才能保存，否則會被誤當成新增而插一條重複任務
   const canSave =
     trimmedTitle.length > 0 &&
     trimmedTitle.length <= MAX_TITLE_LENGTH &&
@@ -101,7 +101,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>任务内容</Text>
+        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>任務內容</Text>
         <TextInput
           value={title}
           onChangeText={value => {
@@ -110,12 +110,12 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
               setShowValidation(false);
             }
           }}
-          placeholder="要做什么？"
+          placeholder="要做什麼？"
           placeholderTextColor={theme.colors.textTertiary}
           maxLength={MAX_TITLE_LENGTH}
           autoFocus
           multiline
-          accessibilityLabel="任务内容"
+          accessibilityLabel="任務內容"
           style={[
             styles.titleInput,
             {
@@ -129,7 +129,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
         <View style={styles.counterRow}>
           {showValidation && !canSave ? (
             <Text style={[styles.error, { color: theme.colors.danger }]}>
-              请输入任务内容
+              請輸入任務內容
             </Text>
           ) : (
             <View />
@@ -139,7 +139,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
           </Text>
         </View>
 
-        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>优先级</Text>
+        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>優先級</Text>
         <View style={styles.priorityRow}>
           {PRIORITIES.map(value => {
             const selected = value === priority;
@@ -150,7 +150,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
                 onPress={() => setPriority(value)}
                 accessibilityRole="radio"
                 accessibilityState={{ selected }}
-                accessibilityLabel={`优先级${PRIORITY_LABEL[value]}`}
+                accessibilityLabel={`優先級${PRIORITY_LABEL[value]}`}
                 style={[
                   styles.priorityChip,
                   {
@@ -170,14 +170,14 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
           })}
         </View>
 
-        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>备注（可选）</Text>
+        <Text style={[styles.label, { color: theme.colors.textSecondary }]}>備註（可選）</Text>
         <TextInput
           value={notes}
           onChangeText={setNotes}
-          placeholder="补充说明"
+          placeholder="補充說明"
           placeholderTextColor={theme.colors.textTertiary}
           multiline
-          accessibilityLabel="备注"
+          accessibilityLabel="備註"
           style={[
             styles.notesInput,
             {
@@ -191,7 +191,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
         <Pressable
           onPress={handleSave}
           accessibilityRole="button"
-          accessibilityLabel={isEditing ? '保存修改' : '创建任务'}
+          accessibilityLabel={isEditing ? '保存修改' : '創建任務'}
           accessibilityState={{ disabled: !canSave }}
           style={({ pressed }) => [
             styles.saveButton,
@@ -201,7 +201,7 @@ export default function TaskEditorModal({ navigation, route }: TaskEditorScreenP
             },
           ]}>
           <Text style={[styles.saveText, { color: theme.colors.onPrimary }]}>
-            {isEditing ? '保存修改' : '创建任务'}
+            {isEditing ? '保存修改' : '創建任務'}
           </Text>
         </Pressable>
       </ScrollView>
