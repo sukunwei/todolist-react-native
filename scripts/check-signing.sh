@@ -78,13 +78,35 @@ if [ -d "$ARCHIVE_APP" ]; then
   [ "$gta" = "false" ] || { echo "  ✗ 描述文件是開發者類型（get-task-allow=${gta}），需為 App Store 分發類型"; ready=0; }
   [ "$appid" != "XC Wildcard" ] || { echo "  ✗ 描述文件用的是通配符 App ID（XC Wildcard）"; ready=0; }
 fi
-[ "$ready" = "1" ] && echo "  ✓ 已具備上傳 App Store 的簽名條件" || echo "  → 見下方「缺什麼」"
+if [ "$ready" = "1" ]; then
+  echo "  ✓ 已具備上傳 App Store 的簽名條件"
+  exit 0
+fi
 
+echo "  → 見下方「缺什麼 / 怎麼補」"
 echo
 echo "=== 缺什麼 / 怎麼補 ==="
-echo "  1) 在 Developer Portal 註冊顯式 App ID："
-echo "     https://developer.apple.com/account/resources/identifiers/list"
-echo "     → + → App IDs → App → 顯式 ID 填 com.kunweisu.todolist"
-echo "  2) 然後在 Xcode 對 target 做一次 Product → Archive，"
-echo "     Xcode 就會自動建立 Apple Distribution 證書與 App Store 分發描述文件。"
-echo "  3) 或直接跑 ./scripts/release.sh --check 回到本腳本複驗。"
+cat <<'TXT'
+  ① 註冊顯式 App ID（不能用通配符 *，通配符只能是開發型描述文件）
+     https://developer.apple.com/account/resources/identifiers/list
+     → + → App IDs → App → Explicit → com.kunweisu.todolist
+
+  ② 建 Apple Distribution 證書
+     https://developer.apple.com/account/resources/certificates/list
+     → + → Apple Distribution → 上傳 CSR（./scripts/generate-csr.sh 產生）
+     → 下載 .cer 後執行 ./scripts/import-cert.sh <路徑>
+
+  ③ 建 App Store 分發描述文件
+     https://developer.apple.com/account/resources/profiles/list
+     → + → Distribution: App Store Connect
+       Certificate = Apple Distribution: Kunwei SU (9NRVT8Q8MQ)
+       App ID      = TODOLIST (com.kunweisu.todolist)
+       Name        = TODOLIST App Store
+     → 下載 .mobileprovision 後執行 ./scripts/import-profile.sh <路徑>
+
+  ④ Release 改為手動簽名
+     ./scripts/set-manual-signing.sh "TODOLIST App Store"
+
+  ⑤ 打包上傳
+     ./scripts/release.sh --upload
+TXT

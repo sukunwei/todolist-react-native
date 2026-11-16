@@ -20,7 +20,8 @@ cd "$(dirname "$0")/.."
 
 BUNDLE_ID="${BUNDLE_ID:-com.kunweisu.todolist}"
 TEAM_ID="${TEAM_ID:-9NRVT8Q8MQ}"
-METHOD="${METHOD:-app-store}"      # app-store | development | ad-hoc
+METHOD="${METHOD:-app-store-connect}"   # app-store-connect | development | ad-hoc
+PROFILE_NAME="${PROFILE_NAME:-TODOLIST App Store}"
 DO_UPLOAD=0
 DO_CHECK_ONLY=0
 APPLE_ID="${APPLE_ID:-}"
@@ -120,6 +121,11 @@ ARCHIVE_ARGS=(
 )
 [ -n "$TEAM_ID" ] && ARCHIVE_ARGS+=("DEVELOPMENT_TEAM=$TEAM_ID")
 [ "$BUNDLE_ID" != "com.kunweisu.todolist" ] && ARCHIVE_ARGS+=("PRODUCT_BUNDLE_IDENTIFIER=$BUNDLE_ID")
+# Release 走手動簽名：Xcode 自動簽名在這個帳號上會落到 development 型別，
+# 必須明確指定發行證書與 App Store 分發描述文件。
+ARCHIVE_ARGS+=("CODE_SIGN_STYLE=Manual")
+ARCHIVE_ARGS+=("CODE_SIGN_IDENTITY=Apple Distribution")
+ARCHIVE_ARGS+=("PROVISIONING_PROFILE_SPECIFIER=$PROFILE_NAME")
 
 xcodebuild "${ARCHIVE_ARGS[@]}"
 
@@ -143,7 +149,12 @@ cat > "$EXPORT_OPTIONS" <<PLIST
 	<key>teamID</key>
 	<string>${TEAM_ID}</string>
 	<key>signingStyle</key>
-	<string>automatic</string>
+	<string>manual</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>${BUNDLE_ID}</key>
+		<string>${PROFILE_NAME}</string>
+	</dict>
 	<key>destination</key>
 	<string>upload</string>
 	<key>stripSwiftSymbols</key>
