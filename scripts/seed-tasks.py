@@ -55,9 +55,9 @@ def make_task(task_id, title, priority, status, order, created_offset, notes=Non
     return task
 
 
-def build_tasks():
+def build_tasks(count=6):
     """示例任务。order 小的排在上面。"""
-    return [
+    presets = [
         make_task("seed-1", "买牛奶和鸡蛋", "high", "active", 0, 12 * MINUTE),
         make_task(
             "seed-2",
@@ -73,6 +73,26 @@ def build_tasks():
         make_task("seed-5", "给妈妈打个电话", "high", "done", 4, 2 * DAY),
         make_task("seed-6", "交房租", "medium", "done", 5, 3 * DAY),
     ]
+
+    if count <= len(presets):
+        return presets[:count]
+
+    # 超出预置数量时批量补齐，用于压测长列表性能
+    tasks = list(presets)
+    fillers = ["整理桌面", "回复邮件", "取快递", "跑步 3 公里", "读 30 页书"]
+    for i in range(count - len(presets)):
+        status = "done" if i % 4 == 3 else "active"
+        tasks.append(
+            make_task(
+                f"bulk-{i}",
+                f"{fillers[i % len(fillers)]} #{i + 1}",
+                ["high", "medium", "low"][i % 3],
+                status,
+                len(tasks),
+                (i + 1) * 7 * MINUTE,
+            )
+        )
+    return tasks
 
 
 def run(cmd):
@@ -95,10 +115,26 @@ def find_udid(explicit=None):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    relaunch = "--no-relaunch" not in sys.argv
+    raw = sys.argv[1:]
+    relaunch = "--no-relaunch" not in raw
 
-    udid = find_udid(args[0] if args else None)
+    # --count N：生成 N 条任务（默认 6）。用于压测长列表性能。
+    count = 6
+    positional = []
+    i = 0
+    while i < len(raw):
+        token = raw[i]
+        if token == "--count":
+            count = int(raw[i + 1])
+            i += 2
+            continue
+        if token.startswith("--"):
+            i += 1
+            continue
+        positional.append(token)
+        i += 1
+
+    udid = find_udid(positional[0] if positional else None)
     container = run(
         ["xcrun", "simctl", "get_app_container", udid, BUNDLE_ID, "data"]
     )
@@ -114,7 +150,7 @@ def main():
         )
 
     payload = json.dumps(
-        {"state": {"tasks": build_tasks()}, "version": 1},
+        {"state": {"tasks": build_tasks(count)}, "version": 1},
         ensure_ascii=False,
         separators=(",", ":"),
     )
@@ -130,7 +166,7 @@ def main():
     with open(manifest_path, "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False)
 
-    print(f"已写入 {len(build_tasks())} 条示例任务 → {manifest_path}")
+    print(f"已写入 {len(build_tasks(count))} 条示例任务 → {manifest_path}")
 
     if relaunch:
         run(["xcrun", "simctl", "launch", udid, BUNDLE_ID])
