@@ -73,3 +73,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Playwright MCP 產物
+.playwright-mcp/
+privacy-preview.png
