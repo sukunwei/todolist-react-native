@@ -16,7 +16,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "隐私政策.md"
-DST = ROOT / "privacy-policy.html"
+DST = ROOT / "docs" / "index.html"
 
 CSS = """
 :root {
@@ -309,13 +309,13 @@ def main():
 </html>
 """
 
+    DST.parent.mkdir(parents=True, exist_ok=True)
     DST.write_text(page, encoding="utf-8")
     print(f"已產生 {DST.relative_to(ROOT)}  ({len(page):,} bytes)")
     print()
-    print("部署方式（任選其一，拿到網址後填回 隐私政策.md 與 App Store Connect）：")
-    print("  • GitHub Pages：把 privacy-policy.html 改名 index.html 推到 gh-pages 分支")
-    print("  • Netlify Drop：把整個資料夾拖到 app.netlify.com/drop")
-    print("  • Vercel：npx vercel --prod")
+    print("部署方式：推上 GitHub 後在 Settings → Pages 選 main 分支 /docs 目錄，")
+    print("網址即為 https://sukunwei.github.io/todolist-react-native/")
+    print("拿到網址後填回 隐私政策.md 與 App Store Connect 的「隱私政策網址」")
 
 
 if __name__ == "__main__":
