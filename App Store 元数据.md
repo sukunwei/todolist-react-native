@@ -170,13 +170,13 @@ App 完全離線運行，不發起任何網路請求，不請求任何系統權�
 - [ ] 副標題 / 關鍵詞字元數在限制內
 - [ ] 5 張截圖已上傳（6.9" 1320×2868）
 - [ ] App 圖示 1024×1024 且無 Alpha 通道（`ios/TODOLIST/Images.xcassets/AppIcon.appiconset/AppIcon.png`）
-- [ ] 隱私政策網頁已部署、可公開訪問
+- [x] 隱私政策網頁已部署：https://sukunwei.github.io/todolist-react-native/
 
 **工程**
 - [x] Bundle ID 已設為 `com.kunweisu.todolist`，`project.pbxproj` 已改（`Info.plist` 用的是 `$(PRODUCT_BUNDLE_IDENTIFIER)`，自動跟隨）
 - [ ] App Store Connect 建 App 記錄時選用同一個 Bundle ID
 - [ ] 主要語言選 **繁體中文**
-- [ ] 隱私政策網頁已部署為繁體中文，可公開訪問
+- [x] 隱私政策網頁已部署為繁體中文：https://sukunwei.github.io/todolist-react-native/
 - [ ] `MARKETING_VERSION = 1.0.0`、`CURRENT_PROJECT_VERSION = 1`
 - [ ] `TARGETED_DEVICE_FAMILY = 1`（僅 iPhone）
 - [x] Xcode 已登錄付費賬號，Team `9NRVT8Q8MQ`（Kunwei SU）
