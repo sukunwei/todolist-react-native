@@ -20,6 +20,25 @@
 > App Store 名稱全域唯一。註冊前先在 App Store Connect 搜一下確認 `TODOLIST` 可用；
 > 若已被佔用，可用 `TODOLIST Todo`、`<公司簡稱> TODO` 等備選。
 
+### 語系策略
+
+App 介面、商店文案、隱私政策全部統一為**繁體中文（台灣用語）**，主要語言選「繁體中文」。
+
+| 項目 | 語系 |
+|---|---|
+| App 介面 | 繁體中文（台灣用語） |
+| 商店頁面（名稱／副標題／描述／關鍵詞） | 繁體中文 |
+| 隱私政策 | 繁體中文 |
+| 主要語言 | 繁體中文 |
+
+> 若之後想同時照顧大陸用戶，App Store Connect 可在
+> 「App 版本 → 本地化資訊 → 新增語言」加一組 **簡體中文**。
+> 但 App 介面目前是寫死在 `src/` 裡的繁體字，要加簡體版得再接一套字串資源——
+> 那是另一件事，不影響當前上架。
+>
+> 提醒：App 內的字串目前直接寫在 `src/` 裡，未來若要加多語系，
+> 需要先抽成 i18n 資源檔。
+
 ## 二、副標題（≤30 字元）
 
 ```
@@ -125,6 +144,7 @@
 | Bundle ID | `com.kunweisu.todolist`（需在 Developer Portal 已註冊） |
 | Team ID | `9NRVT8Q8MQ` |
 | 開發者（賣方）名稱 | `Kunwei SU`（個人賬號，展示的就是這個） |
+| **主要語言** | **繁體中文**（zh-Hant） |
 | App 隱私標籤 | **不收集資料**（全部選項選「不收集」） |
 | 出口合規 | 不含加密 → 走豁免流程 |
 | 追蹤權限（ATT） | 不請求 |
@@ -155,6 +175,8 @@ App 完全離線運行，不發起任何網路請求，不請求任何系統權�
 **工程**
 - [x] Bundle ID 已設為 `com.kunweisu.todolist`，`project.pbxproj` 已改（`Info.plist` 用的是 `$(PRODUCT_BUNDLE_IDENTIFIER)`，自動跟隨）
 - [ ] App Store Connect 建 App 記錄時選用同一個 Bundle ID
+- [ ] 主要語言選 **繁體中文**
+- [ ] 隱私政策網頁已部署為繁體中文，可公開訪問
 - [ ] `MARKETING_VERSION = 1.0.0`、`CURRENT_PROJECT_VERSION = 1`
 - [ ] `TARGETED_DEVICE_FAMILY = 1`（僅 iPhone）
 - [x] Xcode 已登錄付費賬號，Team `9NRVT8Q8MQ`（Kunwei SU）
